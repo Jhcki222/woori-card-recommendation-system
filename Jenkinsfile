@@ -30,12 +30,17 @@ pipeline {
             steps {
                 // 해당 디렉토리에서 SonarQube 분석을 실행합니다.
                 dir('server/wooricard-recommend-server-webflux-refactor') {
-                    // Jenkins에 설정된 'SonarQube' 서버 환경을 사용합니다.
-                    withSonarQubeEnv('SonarQube') {
-                        sh './gradlew sonar --no-daemon'
+                    // Jenkins Credentials에 저장된 인증 토큰을 안전하게 가져와
+                    // SONAR_TOKEN 환경 변수로 설정합니다.
+                    withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+                        withSonarQubeEnv('SonarQube') {
+                            // Gradle SonarScanner는 SONAR_TOKEN 환경 변수를 자동으로 인식하여 사용합니다.
+                            sh './gradlew sonar --no-daemon'
+                        }
                     }
                 }
             }
         }
     }
 }
+
