@@ -39,3 +39,10 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+sonar {
+	properties {
+		property "sonar.projectKey", "recommend-project"
+		property "sonar.projectName", "recommend-project"
+	}
+}
