@@ -1,4 +1,4 @@
-node {
+pipeline {
     agent any
     stages {
         stage('SCM') {
@@ -14,19 +14,25 @@ node {
                 dir('server/wooricard-recommend-server-webflux-refactor') {
                     // 1. gradlew 실행 권한 부여
                     stage('Grant Permission') {
-                        sh 'chmod +x gradlew'
+                        steps {
+                            sh 'chmod +x gradlew'
+                        }
                     }
 
                     // 2. 프로젝트 빌드 (테스트 제외)
                     stage('Build') {
-                        sh './gradlew clean build -x test'
+                        steps {
+                            sh './gradlew clean build -x test'
+                        }
                     }
 
                     // 3. SonarQube 분석
                     stage('SonarQube Analysis') {
-                        // Jenkins에 설정된 SonarQube 환경을 가져옵니다.
-                        withSonarQubeEnv() {
-                            sh './gradlew sonar --no-daemon'
+                        steps {
+                            // Jenkins에 설정된 SonarQube 환경을 가져옵니다.
+                            withSonarQubeEnv() {
+                                sh './gradlew sonar --no-daemon'
+                            }
                         }
                     }
                 }
@@ -34,3 +40,4 @@ node {
         }
     }
 }
+
