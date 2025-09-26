@@ -1,0 +1,6 @@
+projectKey=recommend-project-client
+serverUrl=http://localhost:9000
+serverVersion=25.9.0.112764
+dashboardUrl=http://localhost:9000/dashboard?id=recommend-project-client
+ceTaskId=450cb1d8-9030-46dc-910a-842281404fef
+ceTaskUrl=http://localhost:9000/api/ce/task?id=450cb1d8-9030-46dc-910a-842281404fef
