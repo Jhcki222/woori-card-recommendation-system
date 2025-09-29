@@ -37,10 +37,7 @@ export async function POST(req: NextRequest) {
                         controller.enqueue(value); // 받은 데이터 조각을 클라이언트로 즉시 전달
                     }
                 } catch (error) {
-                    console.error(
-                        'Error while reading stream from Spring:',
-                        error
-                    );
+                    console.error('Error while reading stream from Spring:', error);
                     controller.error(error);
                 } finally {
                     controller.close(); // 스트림 컨트롤러 종료

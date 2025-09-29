@@ -1,15 +1,15 @@
-# 서버 실행
+# Running Server Command
 # python create_vector_db.py
 # uvicorn app.main:app --reload
 
-# 웹 프레임워크 및 서버
+# Framwork and server
 fastapi
 uvicorn[standard]
 httpx
 python-dotenv
 httpie
 
-# LangChain RAG 파이프라인
+# LangChain RAG PipeLine
 langchain
 langchain-google-genai 
 pandas
@@ -18,7 +18,7 @@ langchain-huggingface
 langchain-community
 faiss-cpu
 
-# Vector DB 및 임베딩 모델
+# Vector DB and Embedding Model
 faiss-cpu
 langchain-huggingface
 sentence-transformers

@@ -15,6 +15,7 @@ env/
 dist/
 build/
 uv.lock
+node_modules/
 
 # 테스트
 .pytest_cache/

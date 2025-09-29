@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import type { Message, CardData } from '@/types/type';
 import { cleanUpResponseText } from '@/lib/chat-utils';
 
-const SPRING_SERVER_BASE_URL = 'http://localhost:8082';
+const SPRING_SERVER_BASE_URL = 'http://localhost:8080';
 
 /**
  * 채팅 기능과 관련된 모든 상태와 로직을 관리하는 커스텀 훅입니다.
@@ -63,11 +63,7 @@ export function useChat() {
                 if (isFirstChunk && value) {
                     setIsLoading(false); // TypingIndicator 숨김
                     setMessages((prev) =>
-                        prev.map((msg) =>
-                            msg.id === assistantMessageId
-                                ? { ...msg, isLoadingCards: true }
-                                : msg
-                        )
+                        prev.map((msg) => (msg.id === assistantMessageId ? { ...msg, isLoadingCards: true } : msg))
                     ); // CardSkeleton 표시
                     isFirstChunk = false;
                 }
@@ -82,19 +78,13 @@ export function useChat() {
                     if (part.startsWith('data: ')) {
                         const dataContent = part.substring(6);
 
-                        if (
-                            dataContent.trim().startsWith('[') &&
-                            dataContent.trim().endsWith(']')
-                        ) {
+                        if (dataContent.trim().startsWith('[') && dataContent.trim().endsWith(']')) {
                             try {
-                                const cards: CardData[] =
-                                    JSON.parse(dataContent);
+                                const cards: CardData[] = JSON.parse(dataContent);
                                 // 4. 카드 데이터의 imageUrl에 서버 주소를 붙여 완전한 URL로 만듦
                                 const cardsWithFullUrl = cards.map((card) => ({
                                     ...card,
-                                    imageUrl: card.imageUrl
-                                        ? `${SPRING_SERVER_BASE_URL}${card.imageUrl}`
-                                        : '',
+                                    imageUrl: card.imageUrl ? `${SPRING_SERVER_BASE_URL}${card.imageUrl}` : '',
                                 }));
 
                                 setMessages((prev) =>
@@ -109,10 +99,7 @@ export function useChat() {
                                     )
                                 );
                             } catch (e) {
-                                console.error(
-                                    'Failed to parse card JSON array:',
-                                    e
-                                );
+                                console.error('Failed to parse card JSON array:', e);
                                 fullResponseText += dataContent;
                             }
                         } else {
@@ -136,9 +123,7 @@ export function useChat() {
             // 5. 스트림이 끝났을 때, 만약 카드 정보가 오지 않았다면 스켈레톤을 숨김
             setMessages((prev) =>
                 prev.map((msg) =>
-                    msg.id === assistantMessageId && msg.isLoadingCards
-                        ? { ...msg, isLoadingCards: false }
-                        : msg
+                    msg.id === assistantMessageId && msg.isLoadingCards ? { ...msg, isLoadingCards: false } : msg
                 )
             );
         } catch (error) {

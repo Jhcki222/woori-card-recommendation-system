@@ -14,16 +14,11 @@ export async function GET(req: NextRequest) {
         const names = searchParams.get('names');
 
         if (!names) {
-            return NextResponse.json(
-                { error: 'Card names are required' },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: 'Card names are required' }, { status: 400 });
         }
 
-        const springResponse = await fetch(
-            `${SPRING_SERVER_URL}?names=${encodeURIComponent(names)}`
-        );
-        
+        const springResponse = await fetch(`${SPRING_SERVER_URL}?names=${encodeURIComponent(names)}`);
+
         if (!springResponse.ok) {
             const errorText = await springResponse.text();
             // 에러 발생 시에도 Spring 서버가 보낸 내용을 로그로 남깁니다.
@@ -40,17 +35,12 @@ export async function GET(req: NextRequest) {
 
         const cardDataWithFullUrl = cardData.map((card) => ({
             ...card,
-            imageUrl: card.imageUrl
-                ? `${SPRING_SERVER_BASE_URL}${card.imageUrl}`
-                : '',
+            imageUrl: card.imageUrl ? `${SPRING_SERVER_BASE_URL}${card.imageUrl}` : '',
         }));
 
         return NextResponse.json(cardDataWithFullUrl);
     } catch (error) {
         console.error('Error fetching card details:', error);
-        return NextResponse.json(
-            { error: 'Internal Server Error' },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }
