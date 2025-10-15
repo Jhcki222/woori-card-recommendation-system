@@ -1,6 +1,6 @@
 'use client';
 
-import Hyperspeed from '@/components/bits/Hyperspeed/Hyperspeed';
+import Hyperspeed from './Hyperspeed';
 import { hyperspeedPresets } from '@/components/bits/Hyperspeed/presets';
 
 export default function HyperspeedBackground() {

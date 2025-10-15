@@ -5,17 +5,17 @@ import './globals.css';
 const wooridaum = localFont({
     src: [
         {
-            path: './assets/fonts/WooridaumL.ttf',
+            path: '../assets/fonts/WooridaumL.ttf',
             weight: '300',
             style: 'normal',
         },
         {
-            path: './assets/fonts/WooridaumR.ttf',
+            path: '../assets/fonts/WooridaumR.ttf',
             weight: '400',
             style: 'normal',
         },
         {
-            path: './assets/fonts/WooridaumB.ttf',
+            path: '../assets/fonts/WooridaumB.ttf',
             weight: '700',
             style: 'normal',
         },
@@ -35,7 +35,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang='en' className={`${wooridaum.variable}`}>
+        <html lang="en" className={`${wooridaum.variable}`}>
             <body>{children}</body>
         </html>
     );

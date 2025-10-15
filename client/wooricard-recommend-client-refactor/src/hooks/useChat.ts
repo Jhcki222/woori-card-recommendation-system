@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import type { Message, CardData } from '@/types/type';
-import { cleanUpResponseText } from '@/lib/chat-utils';
+import type { Message, CardData } from '../types/type';
+import { cleanUpResponseText } from '../lib/chat-utils';
 
 const SPRING_SERVER_BASE_URL = 'http://localhost:8080';
 

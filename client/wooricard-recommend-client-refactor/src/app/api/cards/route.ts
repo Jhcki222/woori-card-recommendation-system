@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import type { CardData } from '@/types/type'; // CardData 타입을 import합니다.
+import type { CardData } from '../../../types/type'; // CardData 타입을 import합니다.
 
 const SPRING_SERVER_URL = 'http://localhost:8080/api/cards';
 const SPRING_SERVER_BASE_URL = 'http://localhost:8080'; // 이미지 경로를 위한 기본 URL

@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import type { Message, CardData } from '@/types/type';
-import { parseCardNames, cleanUpResponseText } from '@/lib/chat-utils';
+import type { Message, CardData } from '../types/type';
+import { parseCardNames, cleanUpResponseText } from '../lib/chat-utils';
 
 /**
  * 채팅 기능과 관련된 모든 상태와 로직을 관리하는 커스텀 훅
@@ -18,44 +18,30 @@ export function useChat() {
      * 카드 이름 배열을 받아 API를 통해 상세 정보를 비동기적으로 조회하고,
      * 해당 메시지의 상태를 업데이트하는 함수
      */
-    const fetchCardDetails = useCallback(
-        async (messageId: string, cardNames: string[]) => {
-            try {
-                const response = await fetch(
-                    `/api/cards?names=${encodeURIComponent(
-                        cardNames.join(',')
-                    )}`
-                );
-                if (!response.ok)
-                    throw new Error('Failed to fetch card details');
-                const cards: CardData[] = await response.json();
+    const fetchCardDetails = useCallback(async (messageId: string, cardNames: string[]) => {
+        try {
+            const response = await fetch(`/api/cards?names=${encodeURIComponent(cardNames.join(','))}`);
+            if (!response.ok) throw new Error('Failed to fetch card details');
+            const cards: CardData[] = await response.json();
 
-                setMessages((prev) =>
-                    prev.map((msg) =>
-                        msg.id === messageId
-                            ? { ...msg, cards: cards, isLoadingCards: false }
-                            : msg
-                    )
-                );
-            } catch (error: unknown) {
-                console.error('Failed to fetch card details:', error);
-                setMessages((prev) =>
-                    prev.map((msg) =>
-                        msg.id === messageId
-                            ? {
-                                  ...msg,
-                                  isLoadingCards: false,
-                                  text:
-                                      msg.text +
-                                      '\n\n(카드 정보를 불러오는데 실패했습니다.)',
-                              }
-                            : msg
-                    )
-                );
-            }
-        },
-        []
-    );
+            setMessages((prev) =>
+                prev.map((msg) => (msg.id === messageId ? { ...msg, cards: cards, isLoadingCards: false } : msg))
+            );
+        } catch (error: unknown) {
+            console.error('Failed to fetch card details:', error);
+            setMessages((prev) =>
+                prev.map((msg) =>
+                    msg.id === messageId
+                        ? {
+                              ...msg,
+                              isLoadingCards: false,
+                              text: msg.text + '\n\n(카드 정보를 불러오는데 실패했습니다.)',
+                          }
+                        : msg
+                )
+            );
+        }
+    }, []);
 
     const sendMessage = useCallback(
         async (input: string) => {
@@ -120,11 +106,7 @@ export function useChat() {
                     }
 
                     setMessages((prev) =>
-                        prev.map((msg) =>
-                            msg.id === assistantMessageId
-                                ? { ...msg, text: fullResponseText }
-                                : msg
-                        )
+                        prev.map((msg) => (msg.id === assistantMessageId ? { ...msg, text: fullResponseText } : msg))
                     );
                 }
 
@@ -144,8 +126,7 @@ export function useChat() {
                             ? {
                                   ...msg,
                                   text: cleanedText,
-                                  isLoadingCards:
-                                      !!cardNames && cardNames.length > 0,
+                                  isLoadingCards: !!cardNames && cardNames.length > 0,
                               }
                             : msg
                     )
@@ -164,11 +145,7 @@ export function useChat() {
                         role: 'assistant',
                         text: '죄송합니다. 답변 생성 중 오류가 발생했습니다.',
                     };
-                    setMessages((prev) =>
-                        prev.map((m) =>
-                            m.id === assistantMessageId ? errorMessage : m
-                        )
-                    );
+                    setMessages((prev) => prev.map((m) => (m.id === assistantMessageId ? errorMessage : m)));
                 }
             } finally {
                 setIsLoading(false);

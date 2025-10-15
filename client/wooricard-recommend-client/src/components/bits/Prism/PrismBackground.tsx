@@ -1,11 +1,11 @@
 'use client';
 
-import Prism from '@/components/bits/Prism/Prism';
+import Prism from './Prism';
 
 export default function PrismBackground() {
     return (
         <Prism
-            animationType='rotate'
+            animationType="rotate"
             timeScale={0.5}
             height={3.5}
             baseWidth={5.5}
